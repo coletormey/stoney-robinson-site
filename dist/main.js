@@ -88,6 +88,7 @@ const songs = [
 ];
 let musicIndex = 0;
 let isPlaying = false;
+let isDragging = false; // Track if the user is dragging the progress indicator
 // DOM elements
 const playBtn = document.getElementById('play');
 const prevBtn = document.getElementById('prev');
@@ -170,6 +171,28 @@ function setProgressBar(e) {
         music.currentTime = newTime; // Set the currentTime of the music to the new position
     }
 }
+// Mouse events for drag functionality
+function startDrag(e) {
+    isDragging = true;
+    updateProgressBarDuringDrag(e); // Update progress immediately when dragging starts
+}
+function stopDrag() {
+    isDragging = false;
+}
+function updateProgressBarDuringDrag(e) {
+    if (!isDragging)
+        return;
+    const target = playerProgress;
+    const rect = target.getBoundingClientRect();
+    const clickX = e.clientX - rect.left; // Get the position where the mouse is located
+    const width = rect.width;
+    const duration = music.duration;
+    if (duration) {
+        const newTime = (clickX / width) * duration; // Calculate the new time based on the drag position
+        music.currentTime = newTime; // Set the currentTime of the music to the new position
+        updateProgressBar(); // Update the progress visually
+    }
+}
 // Event listeners
 playBtn.addEventListener('click', togglePlay);
 prevBtn.addEventListener('click', () => changeMusic(-1));
@@ -177,4 +200,10 @@ nextBtn.addEventListener('click', () => changeMusic(1));
 music.addEventListener('ended', () => changeMusic(1)); // Automatically change song when one ends
 music.addEventListener('timeupdate', updateProgressBar);
 playerProgress.addEventListener('click', setProgressBar);
+// Add event listeners for drag functionality
+progressIndicator.addEventListener('mousedown', (e) => {
+    startDrag(e);
+    document.addEventListener('mousemove', updateProgressBarDuringDrag);
+    document.addEventListener('mouseup', stopDrag);
+});
 // #endregion

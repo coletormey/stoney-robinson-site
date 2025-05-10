@@ -209,8 +209,8 @@ input {
   color: black;
   display: flex;
   justify-content: center;
-  padding-bottom: 5vh;
-  padding-top: 10vh;
+  padding-bottom: 2vh;
+  padding-top: 5vh;
 }
 
 .mp3-player > * {
@@ -221,13 +221,30 @@ input {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content:flex-start;
+  justify-content: flex-start;
   background-color: white;
-  width: 24vw;
-  aspect-ratio: 5/6;
+  width: clamp(250px, 60vw, 350px); /* Ensure the width adjusts on mobile */
+  aspect-ratio: 5 / 6; /* Keep aspect ratio consistent */
   border-radius: 18px;
   box-shadow: 0 15px 30px #7c7255;
   transition: all 0.5s ease;
+  padding: 20px;
+  box-sizing: border-box; /* Ensures padding is included in width/height calculation */
+}
+
+h2, h3 {
+  text-align: center;  /* Centers the text horizontally */
+  margin: 5px 0;       /* Adds some margin for spacing between title and artist */
+}
+
+h2 {
+  font-size: 1.5em;  /* Adjust the font size of the song title */
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 1.2em;  /* Adjust the font size of the artist name */
+  color: #777;       /* Optional: lighter color for artist name */
 }
 
 .mp3-player:hover {
@@ -257,11 +274,11 @@ input {
 #mp3-player-progress {
   background-color: #8989a9;
   border-radius: 5px;
-  cursor: pointer;
   position: relative;
+  cursor: pointer;
   margin: 40px 20px 35px;
   height: 6px;
-  width: 90%
+  width: 90%;
 }
 
 #progress {
@@ -287,9 +304,13 @@ input {
 
 .song-duration {
   position: relative;
-  top: -25px;
+  top: -35px;
   display: flex;
   justify-content: space-between;
+}
+
+#current-time, #duration, #song-duration {
+  cursor: default; /* Ensure cursor remains default on the duration text */
 }
 
 .mp3-player-controls {
@@ -330,12 +351,12 @@ input {
   }
 
   .mp3-player {
-  width: 40vw;
-}
+    width: 60vw;
+  }
 
-#mp3-cover-art {
-  width: 25vw;
-}
+  #mp3-cover-art {
+    width: 30vw;
+  }
 
   #sideMenu {
     width: 80vw;
