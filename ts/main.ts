@@ -119,7 +119,7 @@ const songs: Song[] = [
 
 let musicIndex = 0;
 let isPlaying = false;
-let isDragging = false; // Track if the user is dragging the progress indicator
+let isDragging = false;
 
 // DOM elements
 const playBtn = document.getElementById('play') as HTMLButtonElement;
@@ -164,14 +164,12 @@ function loadMusic(song: Song): void {
 document.addEventListener('DOMContentLoaded', () => {
   loadMusic(songs[musicIndex]);
 
-  // Wait until metadata is loaded to show accurate duration
   music.addEventListener('loadedmetadata', () => {
     durationEl.textContent = formatTime(music.duration);
     currentTimeEl.textContent = '00:00';
     progress.style.width = '0%';
-    progressIndicator.style.left = '0%'; // Ensure the indicator starts at the beginning
+    progressIndicator.style.left = '0%';
 
-    // Set play button to correct initial state
     playBtn.classList.remove('fa-pause');
     playBtn.classList.add('fa-play');
     playBtn.setAttribute('title', 'Play');
@@ -180,8 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function changeMusic(direction: number): void {
   musicIndex = (musicIndex + direction + songs.length) % songs.length;
-  loadMusic(songs[musicIndex]); // Load the next song without playing it
-  // Do not play immediately, await play press
+  loadMusic(songs[musicIndex]);
   isPlaying = false;
   playBtn.classList.replace('fa-pause', 'fa-play');
   playBtn.setAttribute('title', 'Play');
@@ -197,63 +194,76 @@ function updateProgressBar(): void {
   if (!music.duration) return;
   const progressPercent = (music.currentTime / music.duration) * 100;
   progress.style.width = `${progressPercent}%`;
-  progressIndicator.style.left = `${progressPercent}%`; // Move the progress-indicator along with the progress
+  progressIndicator.style.left = `${progressPercent}%`;
   currentTimeEl.textContent = formatTime(music.currentTime);
   durationEl.textContent = formatTime(music.duration);
 }
 
 function setProgressBar(e: MouseEvent): void {
-  const target = e.currentTarget as HTMLDivElement;
-  const rect = target.getBoundingClientRect(); // Get the bounding box of the progress bar
-  const clickX = e.clientX - rect.left; // Get the position where the click happened
+  if (e.target !== playerProgress) return; // prevent clicks on children like time labels
+  const rect = playerProgress.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
   const width = rect.width;
 
   const duration = music.duration;
   if (duration) {
-    const newTime = (clickX / width) * duration; // Calculate the new time based on the click position
-    music.currentTime = newTime; // Set the currentTime of the music to the new position
+    music.currentTime = (clickX / width) * duration;
   }
 }
 
-// Mouse events for drag functionality
-function startDrag(e: MouseEvent): void {
+// Drag support for desktop and mobile
+function startDrag(e: MouseEvent | TouchEvent): void {
   isDragging = true;
-  updateProgressBarDuringDrag(e); // Update progress immediately when dragging starts
+  updateProgressDuringInteraction(e);
 }
 
 function stopDrag(): void {
   isDragging = false;
 }
 
-function updateProgressBarDuringDrag(e: MouseEvent): void {
+function updateProgressDuringInteraction(e: MouseEvent | TouchEvent): void {
   if (!isDragging) return;
-  const target = playerProgress;
-  const rect = target.getBoundingClientRect();
-  const clickX = e.clientX - rect.left; // Get the position where the mouse is located
-  const width = rect.width;
 
+  const clientX = (e instanceof TouchEvent) ? e.touches[0].clientX : e.clientX;
+  const rect = playerProgress.getBoundingClientRect();
+  const clickX = clientX - rect.left;
+  const width = rect.width;
   const duration = music.duration;
+
   if (duration) {
-    const newTime = (clickX / width) * duration; // Calculate the new time based on the drag position
-    music.currentTime = newTime; // Set the currentTime of the music to the new position
-    updateProgressBar(); // Update the progress visually
+    const newTime = (clickX / width) * duration;
+    music.currentTime = newTime;
+    updateProgressBar();
   }
 }
+
+// Mouse events
+progressIndicator.addEventListener('mousedown', (e) => {
+  startDrag(e);
+  document.addEventListener('mousemove', updateProgressDuringInteraction);
+  document.addEventListener('mouseup', stopDrag);
+  document.addEventListener('mouseup', () => {
+    document.removeEventListener('mousemove', updateProgressDuringInteraction);
+  });
+});
+
+// Touch events
+progressIndicator.addEventListener('touchstart', (e) => {
+  startDrag(e);
+  document.addEventListener('touchmove', updateProgressDuringInteraction);
+  document.addEventListener('touchend', stopDrag);
+  document.addEventListener('touchend', () => {
+    document.removeEventListener('touchmove', updateProgressDuringInteraction);
+  });
+});
 
 // Event listeners
 playBtn.addEventListener('click', togglePlay);
 prevBtn.addEventListener('click', () => changeMusic(-1));
 nextBtn.addEventListener('click', () => changeMusic(1));
-music.addEventListener('ended', () => changeMusic(1)); // Automatically change song when one ends
+music.addEventListener('ended', () => changeMusic(1));
 music.addEventListener('timeupdate', updateProgressBar);
 playerProgress.addEventListener('click', setProgressBar);
-
-// Add event listeners for drag functionality
-progressIndicator.addEventListener('mousedown', (e) => {
-  startDrag(e);
-  document.addEventListener('mousemove', updateProgressBarDuringDrag);
-  document.addEventListener('mouseup', stopDrag);
-});
 
 
 // #endregion

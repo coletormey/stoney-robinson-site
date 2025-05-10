@@ -210,7 +210,7 @@ input {
   display: flex;
   justify-content: center;
   padding-bottom: 2vh;
-  padding-top: 5vh;
+  padding-top: 10vh;
 }
 
 .mp3-player > * {
@@ -291,10 +291,10 @@ h3 {
 
 #progress-indicator {
   position: absolute;
-  top: -3px; /* Adjust so it's centered vertically within the progress bar */
+  top: -9px; /* Adjust so it's centered vertically within the progress bar */
   left: 0; /* Start from the leftmost point */
-  width: 12px;
-  height: 12px;
+  width: 24px;
+  height: 24px;
   background-color: #fff;
   border-radius: 50%;
   border: 2px solid #4caf50; /* Circle border */
@@ -304,7 +304,7 @@ h3 {
 
 .song-duration {
   position: relative;
-  top: -35px;
+  top: -44px;
   display: flex;
   justify-content: space-between;
 }
@@ -351,7 +351,7 @@ h3 {
   }
 
   .mp3-player {
-    width: 60vw;
+    width: 70vw;
   }
 
   #mp3-cover-art {
