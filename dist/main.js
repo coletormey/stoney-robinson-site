@@ -123,7 +123,6 @@ function loadMusic(song) {
     image.src = song.cover;
     music.load(); // Force metadata load
 }
-// Load initial song on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     loadMusic(songs[musicIndex]);
     music.addEventListener('loadedmetadata', () => {
@@ -157,15 +156,16 @@ function updateProgressBar() {
     currentTimeEl.textContent = formatTime(music.currentTime);
     durationEl.textContent = formatTime(music.duration);
 }
+// ✅ Updated: Always allow seeking when clicking the progress bar
 function setProgressBar(e) {
-    if (e.target !== playerProgress)
-        return; // prevent clicks on children like time labels
     const rect = playerProgress.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const width = rect.width;
     const duration = music.duration;
-    if (duration) {
-        music.currentTime = (clickX / width) * duration;
+    if (duration && width > 0) {
+        const newTime = (clickX / width) * duration;
+        music.currentTime = newTime;
+        updateProgressBar();
     }
 }
 // Drag support for desktop and mobile

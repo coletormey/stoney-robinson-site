@@ -30,6 +30,7 @@ html, body {
 
 input {
   font-size: 22px;
+  width: 80%;
 }
 
 .home-container {
@@ -123,6 +124,7 @@ input {
   border: 2px solid #555555;
   height: 200px;
   font-size: 22px;
+  width: 80%;
 }
 
 .button {
@@ -154,7 +156,7 @@ input {
   position: fixed;
   top: 0;
   right: 0;
-  width: 30vw;
+  width: 50vw;
   height: 100%;
   background-color: #333;
   color: white;
@@ -210,7 +212,7 @@ input {
   display: flex;
   justify-content: center;
   padding-bottom: 2vh;
-  padding-top: 10vh;
+  padding-top: 7vh;
 }
 
 .mp3-player > * {
