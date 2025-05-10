@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoney Robinson</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+    <link rel="icon" href="assets/logo-neon.png" type="image/x-icon" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // https://dashboard.emailjs.com/admin/account
+            emailjs.init({
+              publicKey: "pq8XXnD-5iyO26zFo",
+            });
+        })();
+    </script>
+</head>
+<body>
+    <div class="home-container">
+      <!-- <div class="header-menu-container">
+        <div class="header-menu">
+          <a href="#" id="menuToggle">Book us for your event! ➔</a>
+        </div>
+      </div> -->
+
+      <!-- <div class="header-logo-container">
+        <img class="header-logo" src="../assets/logo-neon.png"/>
+      </div> -->
+
+      <div class="mp3-player-container">
+        <div class="mp3-player">
+          <img src="assets/favicon.svg" class="active" id="mp3-cover-art"/>
+          <h2 id="song-title">Test</h2>
+          <h3 id="song-artist">Song Artist</h3>
+
+          <div class="mp3-player-progress" id="mp3-player-progress">
+            <div class="progress" id="progress"></div>
+            <div id="progress-indicator"></div>
+            <div class="song-duration" id="song-duration">
+              <span id="current-time">0:00</span>
+              <span id="duration">0:00</span>
+            </div>
+          </div>
+
+          <div class="mp3-player-controls">
+            <i class="fa-solid fa-backward-step" title="previous" id="prev"></i>
+            <i class="fa-solid fa-play play-button" title="play" id="play"></i>
+            <i class="fa-solid fa-forward-step" title="next" id="next"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-button-container">
+        <img id="menuToggle" class="booking-button" src="assets/booking_button_nonHover.png" onmouseover="this.src='assets/booking_button_hover.png';" onmouseout="this.src='assets/booking_button_nonHover.png';"/>
+      </div>
+      <!-- <div class="bandcamp-embed-container">
+        <iframe class="bandcamp-embed" title="song-demo" src="https://bandcamp.com/EmbeddedPlayer/track=2266035703/size=large/bgcol=333333/linkcol=0f91ff/tracklist=false/artwork=small/transparent=true/" seamless><a href="https://stoneyrobinson.bandcamp.com/track/hold-on">Hold On by Stoney Robinson</a></iframe>
+      </div> -->
+
+      
+
+      <aside id="sideMenu">
+          <form id="booking-inquiry-form" method="post">
+            <div class="exit-aside-container">
+              <span id="exit-aside"class="exit-aside">✖</span>
+            </div>
+            <p  class="booking-info">
+              <span class="booking-info-title">Contact Name</span>
+              <input
+                name="name"
+                placeholder="First and Last"
+                type="text"
+                required
+              />
+            </p>
+            <label class="booking-info">
+              <span class="booking-info-title">Contact Email</span>
+              <input
+                name="email"
+                placeholder="emailaddress@gmail.com"
+                type="text"
+                required
+              />
+            </label>
+            <label class="booking-info">
+              <span class="booking-info-title">Event Location</span>
+              <input
+                name="location"
+                placeholder="Ex. Los Angeles, CA"
+                type="text"
+                required
+              />
+            </label>
+            <label class="booking-info">
+              <span class="booking-info-title">Event Date</span>
+              <input
+                name="date"
+                placeholder="Ex. April 1st, 2001"
+                type="text"
+                required
+              />
+            </label>
+            <label class="booking-info">
+              <span class="booking-info-title">Event Start Time</span>
+              <input
+                name="time"
+                placeholder="Ex. 6:30pm "
+                type="text"
+              />
+            </label>
+            <label class="booking-info">
+              <span class="booking-info-title">Event Description</span>
+              <textarea class="notes-section"
+                name="description"
+                placeholder='The more details, the better!'\
+                required
+              ></textarea>
+            </label>
+            <button class="button button-submit" type="submit">Submit</button>
+          </form>
+      </aside>
+
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
